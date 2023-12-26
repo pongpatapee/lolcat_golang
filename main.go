@@ -30,12 +30,6 @@ func printRainbow(output []rune) {
 }
 
 func main() {
-	// var phrases []string
-	//
-	// for i := 0; i < 3; i++ {
-	// 	phrases = append(phrases, "hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS ")
-	// }
-
 	info, _ := os.Stdin.Stat()
 
 	var output []rune
