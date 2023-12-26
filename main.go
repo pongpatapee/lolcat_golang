@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"math"
-	"strings"
+	"os"
+	// "strings"
 )
 
 func rgb(i int) (int, int, int) {
@@ -16,20 +19,44 @@ func rgb(i int) (int, int, int) {
 	return r, g, b
 }
 
-func main() {
-	var phrases []string
+func printRainbow(output []rune) {
+	for i := 0; i < len(output); i++ {
 
-	for i := 0; i < 3; i++ {
-		phrases = append(phrases, "hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS ")
-	}
-
-	output := strings.Join(phrases, "; ")
-
-	for j := 0; j < len(output); j++ {
-
-		r, g, b := rgb(j)
-		fmt.Printf("\033[38;2;%d;%d;%dm%c\033[0m", r, g, b, output[j])
+		r, g, b := rgb(i)
+		fmt.Printf("\033[38;2;%d;%d;%dm%c\033[0m", r, g, b, output[i])
 	}
 
 	fmt.Println()
+}
+
+func main() {
+	// var phrases []string
+	//
+	// for i := 0; i < 3; i++ {
+	// 	phrases = append(phrases, "hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS hi NTS ")
+	// }
+
+	info, _ := os.Stdin.Stat()
+
+	var output []rune
+
+	if info.Mode()&os.ModeCharDevice != 0 {
+		fmt.Println("Intended to be used with pipe")
+		fmt.Println("Usage: some program printing to stdout | lolcat_golang")
+		os.Exit(0)
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		input, _, err := reader.ReadRune()
+
+		if err != nil && err == io.EOF {
+			break
+		}
+
+		output = append(output, input)
+	}
+
+	printRainbow(output)
 }
